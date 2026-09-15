@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Олимпиады по информатике 2026/27 — перечень Минобрнауки</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏆</text></svg>">
+<style>
+:root{
+  --bg:#0b0e17; --card:#131829; --card2:#1a2138; --line:#263052;
+  --txt:#e8ecf6; --dim:#9aa5c4; --dim2:#6b7597;
+  --l1:#ffd166; --l2:#4cc3ff; --l3:#b48cff;
+  --ok:#3ddc97; --warn:#ffb454; --soon:#ff6b8b; --wait:#8b93ad;
+  --acc:#5b8cff;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--txt);font-family:'Segoe UI',system-ui,-apple-system,sans-serif;font-size:15px;line-height:1.5}
+a{color:var(--l2);text-decoration:none}
+a:hover{text-decoration:underline}
+.wrap{max-width:1400px;margin:0 auto;padding:0 20px 60px}
+
+/* header */
+header{padding:44px 0 8px}
+h1{font-size:30px;font-weight:700;letter-spacing:-.5px}
+h1 .grad{background:linear-gradient(90deg,#5b8cff,#b48cff,#4cc3ff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{color:var(--dim);margin-top:8px;max-width:760px}
+.stats{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 16px;font-size:13px;color:var(--dim)}
+.stat b{display:block;font-size:20px;color:var(--txt)}
+.stat.hot b{color:var(--soon)}
+.stat.ok b{color:var(--ok)}
+
+/* deadline strip */
+.dead{margin-top:18px;display:flex;gap:8px;flex-wrap:wrap}
+.dead .d{background:linear-gradient(135deg,#2a1522,#1a1428);border:1px solid #54304a;border-radius:10px;padding:8px 14px;font-size:13px}
+.dead .d b{color:var(--warn)}
+
+/* toolbar */
+.toolbar{position:sticky;top:0;z-index:50;background:rgba(11,14,23,.92);backdrop-filter:blur(12px);padding:14px 0;margin-top:20px;border-bottom:1px solid var(--line)}
+.trow{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.trow+.trow{margin-top:10px}
+input[type=search]{background:var(--card);border:1px solid var(--line);color:var(--txt);border-radius:10px;padding:9px 14px;font-size:14px;min-width:240px;outline:none}
+input[type=search]:focus{border-color:var(--acc)}
+select{background:var(--card);border:1px solid var(--line);color:var(--txt);border-radius:10px;padding:9px 12px;font-size:13px;outline:none}
+.chip{border:1px solid var(--line);background:var(--card);color:var(--dim);border-radius:999px;padding:7px 14px;font-size:13px;cursor:pointer;user-select:none;transition:.15s}
+.chip:hover{border-color:var(--acc);color:var(--txt)}
+.chip.on{background:var(--acc);border-color:var(--acc);color:#fff}
+.chip.on.l1{background:var(--l1);border-color:var(--l1);color:#20212b}
+.chip.on.l2{background:var(--l2);border-color:var(--l2);color:#0b2436}
+.chip.on.l3{background:var(--l3);border-color:var(--l3);color:#241a3d}
+.lbl{font-size:12px;color:var(--dim2);text-transform:uppercase;letter-spacing:.8px;margin-right:2px}
+.count{margin-left:auto;font-size:13px;color:var(--dim)}
+.reset{border:none;background:none;color:var(--dim2);font-size:13px;cursor:pointer;text-decoration:underline}
+
+/* grid + cards */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(400px,1fr));gap:16px;margin-top:22px}
+.card{background:linear-gradient(180deg,var(--card),var(--card2));border:1px solid var(--line);border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:12px;transition:.2s;position:relative;overflow:hidden}
+.card:hover{border-color:#3d4a75;transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,0,0,.35)}
+.ctop{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.cname{font-size:17px;font-weight:650;line-height:1.3}
+.cname .num{color:var(--dim2);font-weight:400;font-size:13px;margin-right:6px}
+.badges{display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end;flex-shrink:0}
+.blv{font-size:11px;font-weight:700;padding:3px 9px;border-radius:6px;white-space:nowrap}
+.blv.v1{background:rgba(255,209,102,.15);color:var(--l1);border:1px solid rgba(255,209,102,.35)}
+.blv.v2{background:rgba(76,195,255,.12);color:var(--l2);border:1px solid rgba(76,195,255,.35)}
+.blv.v3{background:rgba(180,140,255,.12);color:var(--l3);border:1px solid rgba(180,140,255,.35)}
+.tags{display:flex;gap:6px;flex-wrap:wrap}
+.tag{font-size:11px;color:var(--dim);background:rgba(91,140,255,.08);border:1px solid rgba(91,140,255,.2);border-radius:999px;padding:2px 10px}
+.status{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:600;padding:6px 12px;border-radius:8px;width:fit-content}
+.status::before{content:'';width:8px;height:8px;border-radius:50%;background:currentColor}
+.st-open{background:rgba(61,220,151,.1);color:var(--ok)}
+.st-run{background:rgba(76,195,255,.1);color:var(--l2)}
+.st-soon{background:rgba(255,180,84,.1);color:var(--warn)}
+.st-wait{background:rgba(139,147,173,.1);color:var(--wait)}
+.st-done{background:rgba(255,107,139,.08);color:var(--dim2)}
+
+/* timeline */
+.tl{display:flex;flex-direction:column;gap:0}
+.tstep{display:grid;grid-template-columns:12px 1fr;gap:10px;position:relative;padding:5px 0 5px 0}
+.tstep::before{content:'';position:absolute;left:5px;top:0;bottom:0;width:2px;background:var(--line)}
+.tstep:first-child::before{top:12px}
+.tstep:last-child::before{bottom:auto;height:12px}
+.dot{width:12px;height:12px;border-radius:50%;background:var(--card);border:2px solid var(--dim2);margin-top:3px;z-index:1;flex-shrink:0}
+.tstep.act .dot{border-color:var(--ok);background:var(--ok);box-shadow:0 0 10px rgba(61,220,151,.6)}
+.tstep.past .dot{border-color:var(--acc);background:var(--acc)}
+.tstep.reg .dot{border-color:var(--warn)}
+.tname{font-size:13px;font-weight:600}
+.tstep.act .tname{color:var(--ok)}
+.tdate{font-size:12px;color:var(--dim)}
+.tdate .apx{color:var(--dim2)}
+.cmeta{display:flex;gap:14px;flex-wrap:wrap;font-size:12.5px;color:var(--dim);margin-top:auto;padding-top:8px;border-top:1px dashed var(--line)}
+.cmeta span b{color:var(--txt);font-weight:600}
+.clinks{display:flex;gap:14px;font-size:13px}
+.note{font-size:12.5px;color:var(--dim);background:rgba(255,180,84,.06);border-left:3px solid var(--warn);padding:7px 10px;border-radius:0 8px 8px 0}
+.empty{text-align:center;color:var(--dim);padding:70px 0;grid-column:1/-1}
+footer{margin-top:40px;color:var(--dim2);font-size:12.5px;border-top:1px solid var(--line);padding-top:18px}
+@media(max-width:460px){.grid{grid-template-columns:1fr}input[type=search]{min-width:100%}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>Олимпиады по <span class="grad">информатике</span> · 2026/27</h1>
+  <p class="sub">Перечень Минобрнауки: все олимпиады с профилями по информатике, ИИ, ИБ и смежным УГС — даты, этапы, регистрация и ссылки на регламенты.</p>
+  <div class="stats" id="stats"></div>
+  <div class="dead" id="dead"></div>
+</header>
+
+<div class="toolbar">
+  <div class="trow">
+    <input type="search" id="q" placeholder="Поиск по названию или профилю…">
+    <span class="lbl">Уровень</span>
+    <div class="chip l1" data-f="lv" data-v="1">I</div>
+    <div class="chip l2" data-f="lv" data-v="2">II</div>
+    <div class="chip l3" data-f="lv" data-v="3">III</div>
+    <span class="lbl">Класс</span>
+    <select id="cls"><option value="">любой</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option><option>11</option></select>
+    <span class="lbl">Тема</span>
+    <select id="tag"><option value="">все</option></select>
+    <select id="sort">
+      <option value="next">ближайшее событие</option>
+      <option value="deadline">дедлайн регистрации</option>
+      <option value="level">уровень (I→III)</option>
+      <option value="name">по названию</option>
+    </select>
+  </div>
+  <div class="trow">
+    <span class="lbl">Статус</span>
+    <div class="chip" data-f="st" data-v="open">регистрация открыта</div>
+    <div class="chip" data-f="st" data-v="run">идёт этап</div>
+    <div class="chip" data-f="st" data-v="soon">старт ≤ 30 дней</div>
+    <div class="chip" data-f="st" data-v="wait">ожидается анонс</div>
+    <span class="count" id="count"></span>
+    <button class="reset" id="reset">сбросить</button>
+  </div>
+</div>
+
+<div class="grid" id="grid"></div>
+
+<footer>
+  Источник: перечень олимпиад школьников Минобрнауки на 2026/27 учебный год + официальные сайты организаторов.
+  Даты с пометкой «~» — прошлый сезон (2025/26), анонс нового сезона ожидается. Проверяйте регламенты на сайтах олимпиад.
+  Обновлено: 15 сентября 2026.
+</footer>
+</div>
+
+<script>
+const TODAY = new Date(); TODAY.setHours(0,0,0,0);
+const D = s => { const [y,m,d]=s.split('-').map(Number); return new Date(y,m-1,d); };
+const fmt = s => { const d=D(s); return d.toLocaleDateString('ru-RU',{day:'numeric',month:'short'}).replace('.',''); };
+const days = s => Math.round((D(s)-TODAY)/864e5);
+
+const TAGNAMES = {it:'Информатика / код',ai:'ИИ и данные',sec:'Инфобезопасность',robot:'Робототехника',eng:'Инженерия',sport:'Спорт. прогр.',misc:'Разное'};
+
+// stages: n=название, s/e=даты, f=формат, r=1 если это окно регистрации
+const OLY = [
+{n:5,name:'Национальная технологическая олимпиада',short:'НТО',lv:[2,3],tags:['it','ai','robot','eng'],cls:[8,9,10,11],
+ site:'https://ntcontest.ru/',docs:'https://ntcontest.ru/about/documents/',
+ reg:['2026-08-26','2026-10-22'],
+ stages:[
+  {n:'Отборочный I — индивидуальный',s:'2026-09-17',e:'2026-10-23',f:'онлайн'},
+  {n:'Отборочный II — командный',s:'2026-11-05',e:'2026-12-07',f:'онлайн'},
+  {n:'Финал',s:'2027-02-01',e:'2027-04-30',f:'очно',a:1}],
+ profs:'15 ИТ-профилей: ИИ, большие данные и ML, инфобезопасность, мобильная разработка, VR/игры, робототехника, БПЛА и др.',
+ note:'Командный формат на II этапе; профилям соответствуют УГС «информатика и ВТ» и «компьютерные науки».'},
+
+{n:7,name:'Всероссийская олимпиада по искусственному интеллекту',short:'ИИ',lv:[2],tags:['ai','it'],cls:[8,9,10,11],
+ site:'https://ai.edu.gov.ru/',docs:'https://ai.edu.gov.ru/',
+ reg:['2026-07-01','2026-09-20'],
+ stages:[
+  {n:'Отборочный этап',s:'2026-09-21',e:'2026-10-06',f:'онлайн'},
+  {n:'Основной этап (All Cups)',s:'2026-10-14',e:'2026-10-18',f:'онлайн'},
+  {n:'Финал',s:'2026-11-16',e:'2026-11-21',f:'очно · Москва'}],
+ profs:'Искусственный интеллект → предмет «информатика»',
+ note:'Тема сезона — космос; достаточно базового Python. Проезд и проживание финалистов за счёт организаторов.'},
+
+{n:8,name:'Всероссийская олимпиада школьников «Высшая проба»',short:'Высшая проба',lv:[1,2],tags:['it','ai'],cls:[7,8,9,10,11],
+ site:'https://olymp.hse.ru/mmo',docs:'https://olymp.hse.ru/mmo/official',
+ reg:['2026-08-20','2026-09-21'],
+ stages:[
+  {n:'Отборочный · 1 тур',s:'2026-09-25',e:'2026-10-11',f:'онлайн'},
+  {n:'Отборочный · 2 тур',s:'2026-11-13',e:'2026-11-22',f:'онлайн'},
+  {n:'Финал',s:'2027-02-05',e:'2027-02-15',f:'очно · регионы'}],
+ profs:'информатика (I) · промышленное программирование (II) · инженерные науки (II)',
+ note:'Регистрация до 21.09 14:00 мск! Дипломанты 7–10 кл. — сразу в финал следующего года.'},
+
+{n:14,name:'Всесибирская открытая олимпиада школьников',short:'Всесибирская · НГУ',lv:[1],tags:['it'],cls:[7,8,9,10,11],
+ site:'https://sesc.nsu.ru/olymp-vsesib/',docs:'https://sesc.nsu.ru/olymp-vsesib/',
+ reg:['2026-10-19','2026-11-06'],
+ stages:[
+  {n:'Отборочный по информатике',s:'2026-11-08',e:'2026-11-08',f:'очно · 50+ площадок'},
+  {n:'Финал по информатике',s:'2027-02-21',e:'2027-02-21',f:'очно'}],
+ profs:'информатика (I)',
+ note:'Отборочный только очно на площадках (РФ, Казахстан, Кыргызстан, Узбекистан). Регистрация финалистов — с 01.02.2027.'},
+
+{n:15,name:'Герценовская олимпиада школьников',short:'Герценовская · РГПУ',lv:[3],tags:['it','misc'],cls:[8,9,10,11],apx:1,
+ site:'https://www.herzen.spb.ru/abiturients/olimpiady/olimp-rsosh/',docs:'https://olymp.herzen.spb.ru/',
+ reg:['2026-11-17','2027-01-31'],
+ stages:[
+  {n:'Отборочный',s:'2026-11-17',e:'2027-01-31',f:'онлайн',a:1},
+  {n:'Финал',s:'2027-03-14',e:'2027-03-14',f:'очно · СПб и регионы',a:1}],
+ profs:'образование и педагогика (информатика — один из предметов)',
+ note:'Даты — прошлый сезон, анонс ~октябрь–ноябрь.'},
+
+{n:20,name:'Международная олимпиада Иннополиса',short:'Innopolis Open',lv:[2,3],tags:['it','sec','ai','robot'],cls:[7,8,9,10,11],apx:1,
+ site:'https://dovuz.innopolis.university/pre-olympiads/innopolis-open',docs:'https://start.innopolis.university/upload/sprint.editor/ade/7pkmcmwu8ke0os4jlf8nul95jut7h2rr.pdf',
+ reg:['2026-09-15','2027-02-01'],
+ stages:[
+  {n:'Отборочные онлайн-туры',s:'2026-10-01',e:'2027-02-10',f:'онлайн',a:1},
+  {n:'Финалы по профилям',s:'2027-02-15',e:'2027-03-16',f:'очно · Иннополис/СПб/Челябинск',a:1}],
+ profs:'информатика (II) · инфобезопасность (II) · ИИ (III) · робототехника (III)',
+ note:'Регистрация открывается ~15 сентября. Бонусы при поступлении в Университет Иннополис.'},
+
+{n:21,name:'Международная олимпиада по финансовой безопасности',short:'Финбезопасность',lv:[1],tags:['it','misc'],cls:[8,9,10],rega:1,
+ site:'https://rosfinolymp.ru/',docs:'https://rosfinolymp.ru/documents',
+ reg:['2027-02-01','2027-03-10'],
+ stages:[
+  {n:'Финал сезона-2026',s:'2026-09-27',e:'2026-10-02',f:'очно · Красноярск'},
+  {n:'Пригласительный этап 2027',s:'2027-02-01',e:'2027-03-10',f:'онлайн',a:1},
+  {n:'Отборочные туры 2027',s:'2027-03-14',e:'2027-04-21',f:'онлайн',a:1}],
+ profs:'финансовая безопасность (информатика + обществознание + ИБ)',
+ note:'Только 8–10 классы! Сезон по календарному году; следующий стартует ~февраля 2027.'},
+
+{n:24,name:'Международная олимпиада УрФУ «Изумруд»',short:'Изумруд · УрФУ',lv:[2],tags:['it'],cls:[8,9,10,11],
+ site:'https://dovuz.urfu.ru/olymps/izumrud',docs:'https://dovuz.urfu.ru/olymp_izumrud_documents/regulation_2026.pdf',
+ reg:['2026-09-01','2027-01-19'],
+ stages:[
+  {n:'Отборочный (совмещён с регистрацией)',s:'2026-09-01',e:'2027-01-19',f:'онлайн · ЛК'},
+  {n:'Финал по информатике',s:'2027-01-30',e:'2027-02-02',f:'очно · города РФ и мира'}],
+ profs:'информатика (II)',
+ note:'Выбор города финала — до 24.01.2027. Стипендия УрФУ 20 000 ₽/мес для дипломантов, поступивших по БВИ.'},
+
+{n:29,name:'Межрегиональная олимпиада школьников им. И.Я. Верченко',short:'Верченко · МТУСИ+ФСБ',lv:[2],tags:['sec','it'],cls:[8,9,10,11],apx:1,
+ site:'https://ikb.mtuci.ru/',docs:'https://ikb.mtuci.ru/upload/docs-volymp/reglament_26_27.pdf',
+ reg:['2026-11-01','2027-02-09'],
+ stages:[
+  {n:'Отборочный',s:'2026-11-03',e:'2027-02-09',f:'онлайн · 5 задач, 4 часа',a:1},
+  {n:'Финал',s:'2027-03-01',e:'2027-03-01',f:'очно · регионы',a:1}],
+ profs:'компьютерная безопасность (информатика + ИБ)',
+ note:'Регламент 26/27 выложен, расписание ~конец октября–ноябрь. Организаторы: ИКСИ Академии ФСБ + МТУСИ.'},
+
+{n:35,name:'Московская олимпиада школьников',short:'МОШ',lv:[1,2,3],tags:['it','robot'],cls:[6,7,8,9,10,11],apx:1,
+ site:'https://mos.olimpiada.ru/',docs:'https://mos.olimpiada.ru/regulation',
+ reg:['2026-12-19','2027-03-26'],
+ stages:[
+  {n:'Отборочный 6–9 кл.',s:'2026-12-19',e:'2027-01-19',f:'онлайн · Сириус',a:1},
+  {n:'Финал 6–9 кл.',s:'2027-02-08',e:'2027-02-08',f:'очно',a:1},
+  {n:'Отборочный 10–11 кл. (2 тура)',s:'2027-02-23',e:'2027-03-09',f:'онлайн',a:1},
+  {n:'Финал 10–11 кл.',s:'2027-03-29',e:'2027-03-29',f:'очно',a:1}],
+ profs:'информатика (I) · робототехника (II) · предпрофессиональная (III)',
+ note:'6–9 и 10–11 классы идут по разным расписаниям. Анонс ~декабрь 2026 / февраль 2027.'},
+
+{n:38,name:'Оборонно-техническая олимпиада',short:'ВОЕНМЕХ',lv:[3],tags:['eng','it'],cls:[9,10,11],apx:1,
+ site:'https://pro.voenmeh.ru/oto',docs:'https://pro.voenmeh.ru/f/prikaz_polozhenie_i_reglament_2025-2026.pdf',
+ reg:['2026-11-21','2027-02-26'],
+ stages:[
+  {n:'Отборочный',s:'2026-11-21',e:'2027-02-26',f:'онлайн',a:1},
+  {n:'Финал (информатика ~28.03)',s:'2027-03-23',e:'2027-04-05',f:'очно',a:1}],
+ profs:'техника и технологии; отдельное направление «информатика и программирование»',
+ note:'Анонс ~вторая половина ноября. Льготы действуют 4 года, нужен ЕГЭ мат/физ ≥75.'},
+
+{n:43,name:'Олимпиада по комплексу предметов «Культура и искусство»',short:'Культура и искусство',lv:[1],tags:['misc','it'],cls:[5,6,7,8,9,10,11],
+ site:'https://olimp.prouniver.ru/',docs:'https://olimp.prouniver.ru/docs/',
+ reg:['2026-10-20','2027-01-31'],
+ stages:[
+  {n:'Отборочный',s:'2026-10-20',e:'2027-01-31',f:'заочно'},
+  {n:'Финал',s:'2027-03-20',e:'2027-03-31',f:'очно · СПб'}],
+ profs:'«прикладная информатика» — один из УГС художественных профилей',
+ note:'Это художественная олимпиада — информатика лишь в списке УГС, учитывайте при выборе.'},
+
+{n:47,name:'Олимпиада школьников «Гранит науки»',short:'Гранит науки · Горный',lv:[2],tags:['it'],cls:[9,10,11],
+ site:'https://ogn.spmi.ru/',docs:'https://ogn.spmi.ru/sites/default/files/manager/2027/Reglament_2026-27.pdf',
+ reg:['2026-10-05','2027-01-13'],
+ stages:[
+  {n:'Отборочный',s:'2026-10-05',e:'2027-01-13',f:'дистанционно'},
+  {n:'Финал по информатике',s:'2027-02-06',e:'2027-02-06',f:'очно или онлайн + прокторинг'}],
+ profs:'информатика (II)',
+ note:''},
+
+{n:48,name:'Олимпиада школьников «Ломоносов»',short:'Ломоносов · МГУ',lv:[2],tags:['it','robot'],cls:[8,9,10,11],apx:1,
+ site:'https://olymp.msu.ru/',docs:'https://olymp.msu.ru/rus/page/main/29/page/menuForDocumentation',
+ reg:['2026-10-25','2026-12-07'],
+ stages:[
+  {n:'Отборочный по профилям',s:'2026-10-31',e:'2026-12-06',f:'онлайн',a:1},
+  {n:'Финал по информатике ~01.03',s:'2027-02-13',e:'2027-03-31',f:'очно · МГУ и регионы',a:1}],
+ profs:'информатика (II) · робототехника (II)',
+ note:'Анонс сезона ~октябрь 2026.'},
+
+{n:51,name:'Олимпиада школьников «Физтех»',short:'Физтех · МФТИ',lv:[2],tags:['it'],cls:[9,10,11],apx:1,
+ site:'https://uc1.1c.ru/olymp-mipt',docs:'https://olymp-online.mipt.ru/page/normativnye-dokumenty',
+ reg:['2026-09-20','2027-01-25'],
+ stages:[
+  {n:'Отборочный I «Код будущего»',s:'2026-09-20',e:'2026-11-20',f:'онлайн',a:1},
+  {n:'Отборочный II',s:'2026-11-20',e:'2027-01-25',f:'онлайн',a:1},
+  {n:'Финал',s:'2027-03-18',e:'2027-03-21',f:'очно',a:1}],
+ profs:'информатика и программирование (II)',
+ note:'Информатика — отдельный трек «Физтех. Код будущего» с 1С, не на olymp-online.'},
+
+{n:52,name:'Олимпиада школьников «Шаг в будущее»',short:'Шаг в будущее · МГТУ',lv:[2,3],tags:['it','eng'],cls:[8,9,10,11],rega:1,
+ site:'https://olymp.bmstu.ru/ru',docs:'https://olymp.bmstu.ru/ru/regulations',
+ reg:['2026-09-14','2026-12-31'],
+ stages:[
+  {n:'Отборочный (волны)',s:'2026-10-24',e:'2026-12-08',f:'онлайн',a:1},
+  {n:'Финал по информатике',s:'2027-03-08',e:'2027-03-22',f:'очно',a:1}],
+ profs:'информатика (III) · инженерное дело (II) · компьют. моделирование (III)',
+ note:'Регистрация уже открыта (lk-olymp.bmstu.ru), расписание туров — позже. Биологии в этом сезоне нет.'},
+
+{n:53,name:'Олимпиада школьников по информатике и программированию',short:'ИОИП · ИТМО',lv:[1],tags:['it','sport'],cls:[11],apx:1,
+ site:'https://neerc.ifmo.ru/school/ioip/index.html',docs:'https://nerc.itmo.ru/school/ioip/regulations.html',
+ reg:['2027-01-15','2027-02-27'],
+ stages:[
+  {n:'Отборочный · 1 тур',s:'2027-02-01',e:'2027-02-01',f:'онлайн 5ч + прокторинг',a:1},
+  {n:'Отборочный · 2 тур',s:'2027-02-28',e:'2027-02-28',f:'онлайн 5ч',a:1},
+  {n:'Финал',s:'2027-04-05',e:'2027-04-05',f:'очно · СПб',a:1}],
+ profs:'информатика (I) — личный зачёт олимпиады ИТМО',
+ note:'Только 11 класс! Туры независимы — можно писать любой. Старт сезона ~февраль 2027.'},
+
+{n:54,name:'Олимпиада школьников по программированию «ТехноКубок»',short:'ТехноКубок',lv:[1],tags:['it','sport'],cls:[8,9,10,11],apx:1,
+ site:'https://techno-cup.ru/',docs:'https://techno-cup.ru/impdocuments',
+ reg:['2026-11-06','2026-12-07'],
+ stages:[
+  {n:'Онлайн-раунды отбора',s:'2026-11-16',e:'2026-12-07',f:'онлайн · 2 раунда',a:1},
+  {n:'Очный отборочный',s:'2027-02-08',e:'2027-02-08',f:'очно · ~20 площадок',a:1},
+  {n:'Финал',s:'2027-03-13',e:'2027-03-15',f:'очно · МФТИ',a:1}],
+ profs:'информатика (I)',
+ note:'Старт ~ноябрь. C++, Python, Java, C#, Kotlin, Go. VK + МФТИ + МГТУ им. Баумана.'},
+
+{n:56,name:'Олимпиада школьников СПбГУ',short:'СПбГУ',lv:[1,3],tags:['it','ai'],cls:[7,8,9,10,11],apx:1,
+ site:'https://sch-olymp.spbu.ru/',docs:'https://olympiada.spbu.ru/dokumenty/',
+ reg:['2026-10-25','2026-12-14'],
+ stages:[
+  {n:'Отборочный',s:'2026-10-25',e:'2026-12-14',f:'онлайн · Moodle, 1 попытка/предмет',a:1},
+  {n:'Финал',s:'2027-01-19',e:'2027-03-09',f:'очно',a:1}],
+ profs:'информатика (I) · матмоделирование и ИИ (III)',
+ note:'Анонс ~конец октября. Предметов не ограничено, по каждому одна попытка.'},
+
+{n:60,name:'Открытая олимпиада школьников',short:'Открытая · ИТМО',lv:[1],tags:['it'],cls:[5,6,7,8,9,10,11],apx:1,
+ site:'https://olymp.itmo.ru/',docs:'https://olymp.itmo.ru/p/inf25/info',
+ reg:['2026-11-01','2027-02-08'],
+ stages:[
+  {n:'Отборочные туры (5–9 кл. — 2 тура, 10–11 кл. — 3)',s:'2026-12-03',e:'2027-02-08',f:'онлайн',a:1},
+  {n:'Финал',s:'2027-03-15',e:'2027-03-15',f:'очно · регионы',a:1}],
+ profs:'информатика (I)',
+ note:'Информация о сезоне — «в конце октября», 1-й тур ~декабрь.'},
+
+{n:61,name:'Открытая олимпиада школьников по программированию',short:'Открытая по прогр.',lv:[1],tags:['it','sport'],cls:[5,6,7,8,9,10,11],apx:1,
+ site:'https://inf-open.ru/',docs:'https://inf-open.ru/2025-26/olympiad-docs',
+ reg:['2026-12-02','2027-01-14'],
+ stages:[
+  {n:'Отборочный — длинный тур, 9 задач',s:'2026-12-02',e:'2027-01-14',f:'онлайн · IOI-стиль',a:1},
+  {n:'Финал',s:'2027-03-05',e:'2027-03-07',f:'очно · Москва + дистанционно',a:1}],
+ profs:'информатика (I)',
+ note:'Анонс ~середина ноября (ТГ @openolymp). МФТИ + ВШЭ + ДОНМ.'},
+
+{n:62,name:'Открытая олимпиада по программированию «Когнитивные технологии»',short:'Когнитивные · МИСИС+МФТИ',lv:[2],tags:['it','sport'],cls:[7,8,9,10,11],apx:1,
+ site:'https://olymp.misis.ru/',docs:'https://misis.ru/files/-/431e5b08bb49269e93f13d22d4143731/reglament.pdf',
+ reg:['2026-11-01','2026-12-13'],
+ stages:[
+  {n:'Три независимых онлайн-тура',s:'2026-11-15',e:'2026-12-21',f:'онлайн',a:1},
+  {n:'Финал',s:'2027-03-29',e:'2027-03-29',f:'очно · ~20 площадок',a:1}],
+ profs:'информатика (II)',
+ note:'Старт ~ноябрь. Достаточно базового C++/Python. Дипломантам — БВИ в МИСИС и др.'},
+
+{n:65,name:'Отраслевая олимпиада школьников «Газпром»',short:'Газпром · ИКТ',lv:[3],tags:['it'],cls:[8,9,10,11],apx:1,
+ site:'https://olympiad.gazprom.ru/',docs:'https://olympiad.gazprom.ru/',
+ reg:['2026-11-01','2027-01-15'],
+ stages:[
+  {n:'Отборочный',s:'2026-11-01',e:'2027-01-15',f:'онлайн',a:1},
+  {n:'Финал по ИКТ ~01.03',s:'2027-02-28',e:'2027-03-01',f:'очно · вузы-организаторы',a:1}],
+ profs:'информационные и коммуникационные технологии → информатика',
+ note:'Отборочный предварительно с 01.11. БВИ при ЕГЭ ≥75 по профильному предмету.'},
+
+{n:66,name:'Отраслевая физико-математическая олимпиада «Росатом»',short:'Росатом · МИФИ',lv:[1],tags:['it'],cls:[7,8,9,10,11],apx:1,
+ site:'https://olymp.mephi.ru/rosatom',docs:'https://admission.mephi.ru/olympiads/rosatom/regulations/Polozhenie',
+ reg:['2026-09-15','2026-12-21'],
+ stages:[
+  {n:'Отборочные туры (очные + интернет-тур)',s:'2026-09-15',e:'2026-12-21',f:'очно + онлайн',a:1},
+  {n:'Финалы',s:'2027-02-07',e:'2027-02-08',f:'очно · Москва и регионы',a:1}],
+ profs:'информатика (I)',
+ note:'Анонс ~сентябрь–октябрь. Уточните на сайте тур именно по информатике — в прошлом сезоне расписание было по физике и математике.'},
+
+{n:78,name:'Университетская олимпиада школьников «Бельчонок»',short:'Бельчонок · СФУ',lv:[3],tags:['it'],cls:[2,3,4,5,6,7,8,9,10,11],
+ site:'https://dovuz.sfu.ru/abiturientu-sfu/olimpiady/belchonok/',docs:'https://dovuz.sfu.ru/abiturientu-sfu/olimpiady/belchonok/2026-2027-uchebnyy-god/',
+ reg:['2026-10-01','2027-01-12'],
+ stages:[
+  {n:'Отборочный',s:'2026-10-01',e:'2027-01-12',f:'дистанционно'},
+  {n:'Финал по информатике',s:'2027-02-14',e:'2027-02-14',f:'очно · регионы'}],
+ profs:'информатика (III)',
+ note:'Организатор — СФУ, Красноярск. Доступ к заданиям закрывается 12.01.2027 в 17:00 (GMT+7).'},
+
+{n:79,name:'Всероссийская олимпиада школьников по предпринимательству',short:'Мечтай-создавай',lv:[3],tags:['misc'],cls:[9,10,11],apx:1,
+ site:'https://dream-create.ru/',docs:'https://dream-create.ru/',
+ reg:['2026-11-01','2026-12-31'],
+ stages:[
+  {n:'Онлайн-туры (кейсы, обучение)',s:'2026-12-01',e:'2027-03-31',f:'онлайн',a:1},
+  {n:'Региональные финалы',s:'2027-04-01',e:'2027-04-30',f:'очно',a:1}],
+ profs:'технологическое предпринимательство (информатика и ВТ среди УГС)',
+ note:'Старт ~1 ноября. Не даёт БВИ — до 10 баллов индивидуальных достижений у вузов-партнёров.'},
+];
+
+/* ---------- state ---------- */
+const F = {q:'', lv:new Set(), st:new Set(), cls:'', tag:'', sort:'next'};
+
+function compute(o){
+  const regS=D(o.reg[0]), regE=D(o.reg[1]);
+  let cur=null, next=null;
+  for(const s of o.stages){
+    if(D(s.s)<=TODAY && TODAY<=D(s.e)) cur=s;
+    else if(D(s.s)>TODAY && !next) next=s;
+  }
+  const regOpen = !o.apx && TODAY>=regS && TODAY<=regE;
+  const regFuture = TODAY<regS;
+  let first=null;
+  if(regFuture) first={n:'Регистрация',s:o.reg[0]};
+  if(next && (!first || D(next.s)<D(first.s))) first=next;
+  let status;
+  if(regOpen) status='open';
+  else if(o.apx) status='wait';
+  else if(cur) status='run';
+  else if(first && days(first.s)<=30) status='soon';
+  else if(first) status='wait';
+  else status='done';
+  return {cur,next,first,regOpen,regFuture,regE,status};
+}
+
+const STNAME={open:'Регистрация открыта',run:'Идёт этап',soon:'Скоро старт',wait:'Ожидается',done:'Завершена'};
+
+function cardHTML(o){
+  const c=compute(o);
+  const lvBadges=o.lv.map(l=>`<span class="blv v${l}">${'I'.repeat(l)} ур.</span>`).join('');
+  const tags=o.tags.map(t=>`<span class="tag">${TAGNAMES[t]}</span>`).join('');
+  const dl = c.regOpen ? `до ${fmt(o.reg[1])} · осталось ${days(o.reg[1])} дн.` : '';
+  const stTxt = c.status==='open' ? `Регистрация открыта — ${dl}`
+    : c.status==='run' ? `Идёт: ${c.cur.n} · до ${fmt(c.cur.e)}`
+    : c.status==='soon' ? `${c.first.n} — ${fmt(c.first.s)} (через ${days(c.first.s)} дн.)`
+    : c.status==='done' ? 'Сезон завершён'
+    : (o.apx? 'Даты 26/27 не опубликованы — показан прошлый сезон' : 'Ожидается: '+c.first.n+' — '+fmt(c.first.s));
+  const steps=[{n:'Регистрация',s:o.reg[0],e:o.reg[1],reg:1,a:o.apx||o.rega},...o.stages].map(s=>{
+    const ps=D(s.s)<=TODAY&&TODAY<=D(s.e), past=D(s.e)<TODAY;
+    const cl='tstep'+(ps?' act':past?' past':'')+(s.reg?' reg':'');
+    const dt = s.s===s.e ? fmt(s.s) : fmt(s.s)+' — '+fmt(s.e);
+    return `<div class="${cl}"><div class="dot"></div><div><div class="tname">${s.n}${ps?' •':''}</div><div class="tdate">${dt}${s.a?' <span class="apx">~оценка 25/26</span>':''}${s.f?' · '+s.f:''}</div></div></div>`;
+  }).join('');
+  const clsTxt = o.cls.length>4 ? `${o.cls[0]}–${o.cls[o.cls.length-1]} кл.` : o.cls.join(', ')+' кл.';
+  return `<div class="card">
+    <div class="ctop"><div class="cname"><span class="num">№${o.n}</span>${o.name}</div><div class="badges">${lvBadges}</div></div>
+    <div class="tags">${tags}</div>
+    <div class="status st-${c.status}">${stTxt}</div>
+    <div style="font-size:13px;color:var(--dim)">${o.profs}</div>
+    <div class="tl">${steps}</div>
+    ${o.note?`<div class="note">${o.note}</div>`:''}
+    <div class="cmeta"><span>Классы: <b>${clsTxt}</b></span></div>
+    <div class="clinks"><a href="${o.site}" target="_blank">сайт олимпиады</a><a href="${o.docs}" target="_blank">регламент / документы</a></div>
+  </div>`;
+}
+
+function nextKey(o){
+  const c=compute(o);
+  if(c.status==='open') return D(o.reg[1]).getTime()-1e13;
+  if(c.status==='run'&&c.cur) return D(c.cur.e).getTime();
+  if(c.next) return D(c.next.s).getTime()+5e12;
+  return 9e15;
+}
+
+function render(){
+  let list=OLY.map(o=>({o,c:compute(o)}));
+  if(F.q){const q=F.q.toLowerCase();list=list.filter(x=>(x.o.name+x.o.short+x.o.profs).toLowerCase().includes(q));}
+  if(F.lv.size)list=list.filter(x=>x.o.lv.some(l=>F.lv.has(l)));
+  if(F.st.size)list=list.filter(x=>F.st.has(x.c.status));
+  if(F.cls)list=list.filter(x=>x.o.cls.includes(+F.cls));
+  if(F.tag)list=list.filter(x=>x.o.tags.includes(F.tag));
+  const S={
+    next:(a,b)=>nextKey(a.o)-nextKey(b.o),
+    deadline:(a,b)=>{const f=x=>x.c.regOpen?D(x.o.reg[1]).getTime():(x.c.regFuture?D(x.o.reg[0]).getTime()+9e14:9e15);return f(a)-f(b);},
+    level:(a,b)=>Math.min(...a.o.lv)-Math.min(...b.o.lv)||a.o.name.localeCompare(b.o.name),
+    name:(a,b)=>a.o.name.localeCompare(b.o.name)};
+  list.sort(S[F.sort]);
+  document.getElementById('grid').innerHTML = list.length? list.map(x=>cardHTML(x.o)).join('') : '<div class="empty">Ничего не найдено — попробуйте смягчить фильтры</div>';
+  document.getElementById('count').textContent = `показано ${list.length} из ${OLY.length}`;
+}
+
+/* header stats + deadlines */
+(function(){
+  const cs=OLY.map(o=>({o,c:compute(o)}));
+  const open=cs.filter(x=>x.c.regOpen).length, run=cs.filter(x=>x.c.status==='run').length;
+  const soon=cs.filter(x=>x.c.next&&days(x.c.next.s)<=30&&!x.c.regOpen&&!x.c.cur).length;
+  document.getElementById('stats').innerHTML=
+   `<div class="stat"><b>${OLY.length}</b>олимпиад с ИТ-профилями</div>
+    <div class="stat ok"><b>${open}</b>регистраций открыто</div>
+    <div class="stat"><b>${run}</b>этапов идёт сейчас</div>
+    <div class="stat hot"><b>${soon}</b>стартует ≤ 30 дней</div>`;
+  const dl=cs.filter(x=>x.c.regOpen).sort((a,b)=>D(a.o.reg[1])-D(b.o.reg[1])).slice(0,5);
+  document.getElementById('dead').innerHTML = dl.map(x=>`<div class="d">⏳ <b>${x.o.short}</b> — регистрация до ${fmt(x.o.reg[1])} (${days(x.o.reg[1])} дн.)</div>`).join('');
+})();
+
+/* tag select */
+(function(){const t=document.getElementById('tag');Object.entries(TAGNAMES).forEach(([k,v])=>{const op=document.createElement('option');op.value=k;op.textContent=v;t.appendChild(op);});})();
+
+/* events */
+document.getElementById('q').addEventListener('input',e=>{F.q=e.target.value;render();});
+document.getElementById('cls').addEventListener('change',e=>{F.cls=e.target.value;render();});
+document.getElementById('tag').addEventListener('change',e=>{F.tag=e.target.value;render();});
+document.getElementById('sort').addEventListener('change',e=>{F.sort=e.target.value;render();});
+document.querySelectorAll('.chip').forEach(ch=>ch.addEventListener('click',()=>{
+  const f=ch.dataset.f,v=+ch.dataset.v||ch.dataset.v;
+  const set=f==='lv'?F.lv:F.st;
+  set.has(v)?set.delete(v):set.add(v);
+  ch.classList.toggle('on');render();
+}));
+document.getElementById('reset').addEventListener('click',()=>{
+  F.q='';F.lv.clear();F.st.clear();F.cls='';F.tag='';F.sort='next';
+  document.getElementById('q').value='';document.getElementById('cls').value='';document.getElementById('tag').value='';document.getElementById('sort').value='next';
+  document.querySelectorAll('.chip.on').forEach(c=>c.classList.remove('on'));render();
+});
+render();
+</script>
+</body>
+</html>
