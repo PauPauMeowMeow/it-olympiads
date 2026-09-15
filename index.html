@@ -51,6 +51,9 @@ select{background:var(--card);border:1px solid var(--line);color:var(--txt);bord
 .lbl{font-size:12px;color:var(--dim2);text-transform:uppercase;letter-spacing:.8px;margin-right:2px}
 .count{margin-left:auto;font-size:13px;color:var(--dim)}
 .reset{border:none;background:none;color:var(--dim2);font-size:13px;cursor:pointer;text-decoration:underline}
+.ftoggle{display:none;background:var(--card);border:1px solid var(--line);color:var(--txt);border-radius:10px;padding:9px 14px;font-size:13px;cursor:pointer;white-space:nowrap}
+.ftoggle b{color:var(--acc)}
+#fpanel{flex-basis:100%}
 
 /* grid + cards */
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(400px,1fr));gap:16px;margin-top:22px}
@@ -107,10 +110,13 @@ footer{margin-top:40px;color:var(--dim2);font-size:12.5px;border-top:1px solid v
   .toolbar{padding:10px 0}
   .trow{gap:7px}
   .lbl{flex-basis:100%;margin:4px 0 -2px}
-  input[type=search]{width:100%;min-width:0}
+  input[type=search]{flex:1;min-width:0;width:auto}
   select{flex:1 1 auto;min-width:110px}
   .chip{padding:6px 12px;font-size:12.5px}
   .count{flex-basis:100%;margin:2px 0 0}
+  .ftoggle{display:inline-flex;align-items:center;gap:6px}
+  #fpanel{display:none}
+  .toolbar.open #fpanel{display:block}
   .grid{grid-template-columns:1fr;gap:12px;margin-top:16px}
   .card{padding:15px;gap:10px}
   .cname{font-size:15px}
@@ -136,29 +142,34 @@ footer{margin-top:40px;color:var(--dim2);font-size:12.5px;border-top:1px solid v
 <div class="toolbar">
   <div class="trow">
     <input type="search" id="q" placeholder="Поиск по названию или профилю…">
-    <span class="lbl">Уровень</span>
-    <div class="chip l1" data-f="lv" data-v="1">I</div>
-    <div class="chip l2" data-f="lv" data-v="2">II</div>
-    <div class="chip l3" data-f="lv" data-v="3">III</div>
-    <span class="lbl">Класс</span>
-    <select id="cls"><option value="">любой</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option><option>11</option></select>
-    <span class="lbl">Тема</span>
-    <select id="tag"><option value="">все</option></select>
-    <select id="sort">
-      <option value="next">ближайшее событие</option>
-      <option value="deadline">дедлайн регистрации</option>
-      <option value="level">уровень (I→III)</option>
-      <option value="name">по названию</option>
-    </select>
-  </div>
-  <div class="trow">
-    <span class="lbl">Статус</span>
-    <div class="chip" data-f="st" data-v="open">регистрация открыта</div>
-    <div class="chip" data-f="st" data-v="run">идёт этап</div>
-    <div class="chip" data-f="st" data-v="soon">старт ≤ 30 дней</div>
-    <div class="chip" data-f="st" data-v="wait">ожидается анонс</div>
-    <span class="count" id="count"></span>
-    <button class="reset" id="reset">сбросить</button>
+    <button class="ftoggle" id="ftoggle">⚙ Фильтры <b id="fcount"></b></button>
+    <div id="fpanel">
+      <div class="trow">
+        <span class="lbl">Уровень</span>
+        <div class="chip l1" data-f="lv" data-v="1">I</div>
+        <div class="chip l2" data-f="lv" data-v="2">II</div>
+        <div class="chip l3" data-f="lv" data-v="3">III</div>
+        <span class="lbl">Класс</span>
+        <select id="cls"><option value="">любой</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option><option>11</option></select>
+        <span class="lbl">Тема</span>
+        <select id="tag"><option value="">все</option></select>
+        <select id="sort">
+          <option value="next">ближайшее событие</option>
+          <option value="deadline">дедлайн регистрации</option>
+          <option value="level">уровень (I→III)</option>
+          <option value="name">по названию</option>
+        </select>
+      </div>
+      <div class="trow">
+        <span class="lbl">Статус</span>
+        <div class="chip" data-f="st" data-v="open">регистрация открыта</div>
+        <div class="chip" data-f="st" data-v="run">идёт этап</div>
+        <div class="chip" data-f="st" data-v="soon">старт ≤ 30 дней</div>
+        <div class="chip" data-f="st" data-v="wait">ожидается анонс</div>
+        <span class="count" id="count"></span>
+        <button class="reset" id="reset">сбросить</button>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -504,6 +515,8 @@ function render(){
   list.sort(S[F.sort]);
   document.getElementById('grid').innerHTML = list.length? list.map(x=>cardHTML(x.o)).join('') : '<div class="empty">Ничего не найдено — попробуйте смягчить фильтры</div>';
   document.getElementById('count').textContent = `показано ${list.length} из ${OLY.length}`;
+  const nf=F.lv.size+F.st.size+(F.cls?1:0)+(F.tag?1:0);
+  document.getElementById('fcount').textContent = nf?`(${nf})`:'';
 }
 
 /* header stats + deadlines */
@@ -534,6 +547,7 @@ document.querySelectorAll('.chip').forEach(ch=>ch.addEventListener('click',()=>{
   set.has(v)?set.delete(v):set.add(v);
   ch.classList.toggle('on');render();
 }));
+document.getElementById('ftoggle').addEventListener('click',()=>document.querySelector('.toolbar').classList.toggle('open'));
 document.getElementById('reset').addEventListener('click',()=>{
   F.q='';F.lv.clear();F.st.clear();F.cls='';F.tag='';F.sort='next';
   document.getElementById('q').value='';document.getElementById('cls').value='';document.getElementById('tag').value='';document.getElementById('sort').value='next';
