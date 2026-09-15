@@ -94,7 +94,34 @@ select{background:var(--card);border:1px solid var(--line);color:var(--txt);bord
 .note{font-size:12.5px;color:var(--dim);background:rgba(255,180,84,.06);border-left:3px solid var(--warn);padding:7px 10px;border-radius:0 8px 8px 0}
 .empty{text-align:center;color:var(--dim);padding:70px 0;grid-column:1/-1}
 footer{margin-top:40px;color:var(--dim2);font-size:12.5px;border-top:1px solid var(--line);padding-top:18px}
-@media(max-width:460px){.grid{grid-template-columns:1fr}input[type=search]{min-width:100%}}
+@media(max-width:900px){.grid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}}
+@media(max-width:640px){
+  .wrap{padding:0 12px 50px}
+  header{padding:26px 0 4px}
+  h1{font-size:23px}
+  .sub{font-size:13.5px;margin-top:6px}
+  .stats{gap:8px;margin-top:14px}
+  .stat{flex:1 1 44%;padding:8px 12px}
+  .stat b{font-size:18px}
+  .dead .d{width:100%;padding:7px 12px}
+  .toolbar{padding:10px 0}
+  .trow{gap:7px}
+  .lbl{flex-basis:100%;margin:4px 0 -2px}
+  input[type=search]{width:100%;min-width:0}
+  select{flex:1 1 auto;min-width:110px}
+  .chip{padding:6px 12px;font-size:12.5px}
+  .count{flex-basis:100%;margin:2px 0 0}
+  .grid{grid-template-columns:1fr;gap:12px;margin-top:16px}
+  .card{padding:15px;gap:10px}
+  .cname{font-size:15px}
+  .status{font-size:12.5px}
+}
+@media(max-width:380px){
+  .ctop{flex-direction:column;gap:8px}
+  .badges{justify-content:flex-start}
+  .tdate{font-size:11.5px}
+  .clinks{flex-wrap:wrap}
+}
 </style>
 </head>
 <body>
